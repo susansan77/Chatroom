@@ -64,6 +64,7 @@ public void verifyDuplicate(){
 			}
 			else{
 				server.getclientsNameList().put(socket, s);
+				server.getclientsOutputList().put(socket, outS);
 				outS.println("Login OK!");
 				start();
 			}

@@ -68,5 +68,7 @@ public class Server {
 	public Hashtable<Socket,String> getclientsNameList(){
 		return this.clientsNameList;
 	}
-	
+	public Hashtable<Socket, PrintWriter> getclientsOutputList(){
+		return this.clients;
+	}
 }

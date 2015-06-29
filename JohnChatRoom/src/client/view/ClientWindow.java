@@ -117,13 +117,10 @@ public class ClientWindow extends JFrame implements Runnable {
 			String str=inputTextArea.getText();
 			BroadcastMsgController broadctl=new BroadcastMsgController();
 			broadctl.processMSG(str);
-			outS.println("sss");
+			outS.println(str);
 			}
 		});
-		inputBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+	
 		tablePanel.setLayout(null);
 		tablePanel.add(btnLeave);
 
