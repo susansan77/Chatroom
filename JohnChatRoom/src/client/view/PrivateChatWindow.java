@@ -13,7 +13,7 @@ import javax.swing.JButton;
 
 public class PrivateChatWindow {
 
-	private JFrame frame;
+	private JFrame frmEee;
 
 	/**
 	 * Launch the application.
@@ -23,7 +23,7 @@ public class PrivateChatWindow {
 			public void run() {
 				try {
 					PrivateChatWindow window = new PrivateChatWindow();
-					window.frame.setVisible(true);
+					window.frmEee.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -42,18 +42,18 @@ public class PrivateChatWindow {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 400);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmEee = new JFrame();
+		frmEee.setBounds(100, 100, 450, 400);
+		frmEee.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    JTextArea textArea = new JTextArea();
 	    JScrollPane scroll = new JScrollPane (textArea);
 	    scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 	    scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 	    
-	    	    frame.getContentPane().add(scroll);
+	    	    frmEee.getContentPane().add(scroll);
 	    
 	    JPanel panel = new JPanel();
-	    GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
+	    GroupLayout groupLayout = new GroupLayout(frmEee.getContentPane());
 	    groupLayout.setHorizontalGroup(
 	    	groupLayout.createParallelGroup(Alignment.LEADING)
 	    		.addGroup(groupLayout.createSequentialGroup()
@@ -117,7 +117,7 @@ public class PrivateChatWindow {
 	    );
 	    panel_1.setLayout(gl_panel_1);
 	    panel.setLayout(gl_panel);
-	    frame.getContentPane().setLayout(groupLayout);
+	    frmEee.getContentPane().setLayout(groupLayout);
 	}
 
 }
