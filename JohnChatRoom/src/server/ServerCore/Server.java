@@ -1,3 +1,4 @@
+package ServerCore;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -22,7 +23,7 @@ public class Server {
 	/**this is a mapping between socket to OutPutStrems for each client*/
 	private Hashtable<Socket, PrintWriter> clients=new Hashtable<Socket, PrintWriter>();
 	/**this is a mapping between sockets and clients' nicknames*/
-	private Hashtable<Socket,String> clientsNameList=new Hashtable<Socket,String>();
+	private Hashtable<String,Socket> clientsNameList=new Hashtable<String,Socket>();
 	/**Server socket for accepting connections request of clients*/
 	ServerSocket serverSocket;
 	
@@ -55,20 +56,17 @@ public class Server {
 	public static void main(String[] args){
 		Server server=new Server();
 	}
-	public void broadCast(String s) {
-		// TODO Auto-generated method stub
-		synchronized(this.clients){
-			Enumeration outs=clients.elements();
-			for(;outs.hasMoreElements();){
-				PrintWriter o=(PrintWriter) outs.nextElement();
-				o.println(s);
-			}
-		}
-	}
-	public Hashtable<Socket,String> getclientsNameList(){
+	
+	public Hashtable<String,Socket> getclientsNameList(){
 		return this.clientsNameList;
 	}
 	public Hashtable<Socket, PrintWriter> getclientsOutputList(){
-		return this.clients;
+		return this.getClients();
+	}
+	public Hashtable<Socket, PrintWriter> getClients() {
+		return clients;
+	}
+	public void setClients(Hashtable<Socket, PrintWriter> clients) {
+		this.clients = clients;
 	}
 }

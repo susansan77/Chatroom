@@ -1,3 +1,7 @@
+package view;
+
+
+
 
 import java.awt.EventQueue;
 
@@ -28,12 +32,14 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.JLabel;
 
 import controller.BroadcastMsgController;
+import controller.ProcessMsgController;
 import model.Client;
 
 import java.awt.event.MouseAdapter;
@@ -42,9 +48,13 @@ import java.awt.event.MouseEvent;
 public class ClientWindow extends JFrame implements Runnable {
 	/** client who uses this window */
 	Client client;
+	public Client getClient() {
+		return client;
+	}
+
 	Socket socket;
 	/** Means of communication to/from broker. */
-	
+
 	PrintWriter outS;
 	BufferedReader inS;
 	private JFrame frmWelcomeToJohn;
@@ -53,6 +63,10 @@ public class ClientWindow extends JFrame implements Runnable {
 	private JTable connectionList;
 	private JTextArea inputTextArea;
 	private JTextArea displayTextArea;
+
+	public JTextArea getDisplayTextArea() {
+		return displayTextArea;
+	}
 
 	/**
 	 * Launch the application.
@@ -75,7 +89,7 @@ public class ClientWindow extends JFrame implements Runnable {
 	 */
 	public ClientWindow() {
 		initialize();
-		
+
 	}
 
 	/**
@@ -114,13 +128,13 @@ public class ClientWindow extends JFrame implements Runnable {
 		inputBtn.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-			String str=inputTextArea.getText();
-			BroadcastMsgController broadctl=new BroadcastMsgController();
-			broadctl.processMSG(str);
-			outS.println(str);
+				String str = inputTextArea.getText();
+				BroadcastMsgController broadctl = new BroadcastMsgController();
+				broadctl.processMSG(str);
+				outS.println(str);
 			}
 		});
-	
+
 		tablePanel.setLayout(null);
 		tablePanel.add(btnLeave);
 
@@ -252,7 +266,8 @@ public class ClientWindow extends JFrame implements Runnable {
 		frmWelcomeToJohn.getContentPane().setLayout(groupLayout);
 	}
 
-	public void setSocket(Socket socket,PrintWriter o,BufferedReader i) throws IOException {
+	public void setSocket(Socket socket, PrintWriter o, BufferedReader i)
+			throws IOException {
 		this.socket = socket;
 		this.outS = o;
 		this.inS = i;
@@ -265,11 +280,20 @@ public class ClientWindow extends JFrame implements Runnable {
 		try {
 			while (true) {
 				String str = this.inS.readLine();
-				this.displayTextArea.append(str + '\n');
+				ProcessMsgController ctr=new ProcessMsgController(this,str);
+				ctr.process();
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
+
+	public void setTable(ArrayList<String> list) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
 }
+
