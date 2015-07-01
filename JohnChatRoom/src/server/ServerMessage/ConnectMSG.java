@@ -4,15 +4,17 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class ConnectMSG extends Message{
-	String status;
+	String status="connect";
 	String user;
-	public ConnectMSG(String name, int status){
+	public ConnectMSG(String name){
 		Identifer="Connect";
 		user=name;
 		this.status="connect";
 	}
-	public ConnectMSG(String str) {
-		// TODO Auto-generated constructor stub
+	public ConnectMSG(ArrayList<String> tokens){
+		Identifer="Connect";
+		user=tokens.get(1);
+		this.status="connect";
 	}
 	
 	@Override
@@ -23,4 +25,7 @@ public class ConnectMSG extends Message{
 	public String getUser(){
 		return user;
 	}
+
+
+	
 }

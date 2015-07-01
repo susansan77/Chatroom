@@ -1,5 +1,7 @@
 package ServerMessage;
 
+import java.util.ArrayList;
+
 public class DisconnectMSG extends Message{
 	String status;
 	String user;
@@ -17,4 +19,6 @@ public class DisconnectMSG extends Message{
 	public String getUser(){
 		return user;
 	}
+
+	
 }

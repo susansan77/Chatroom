@@ -19,7 +19,7 @@ public class ServerThread extends Thread{
 	/**this is the server this thread belongs to*/
 	private Server server;
 	private Socket socket;
-
+	boolean connectionValid=true;
 	
 	private PrintWriter outS;
 	private BufferedReader inS;
@@ -35,7 +35,7 @@ public class ServerThread extends Thread{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		start();
 		
 	}
 	
@@ -47,7 +47,7 @@ public class ServerThread extends Thread{
 	}
 	public void run(){
 		try {
-			while(true){
+			while(connectionValid){
 				String s=getInS().readLine();
 				//server.broadCast(s);
 				ProcessMsgController controller=new ProcessMsgController(this,s);
@@ -60,6 +60,10 @@ public class ServerThread extends Thread{
 		
 	}
 
+
+public void setConnectionValid(boolean connectionValid) {
+		this.connectionValid = connectionValid;
+	}
 
 public Server getServer() {
 	return server;

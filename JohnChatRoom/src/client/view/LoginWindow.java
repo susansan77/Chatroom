@@ -14,8 +14,7 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-import model.Client;
-import controller.ChooseNickNameController;
+
 import controller.ConnectController;
 
 import java.awt.event.ActionListener;
@@ -33,10 +32,20 @@ public class LoginWindow extends JFrame implements Runnable {
 	// private JFrame getFrame();
 	private JTextField textField;
 	ClientWindow window;
-	Client client;
+	String client;
 	Socket socket;
+	public void setSocket(Socket socket) {
+		this.socket = socket;
+	}
 	PrintWriter outS;
+	public void setOutS(PrintWriter outS) {
+		this.outS = outS;
+	}
 	BufferedReader inS;
+
+	public void setInS(BufferedReader inS) {
+		this.inS = inS;
+	}
 
 	/**
 	 * Launch the application.
@@ -91,32 +100,14 @@ public class LoginWindow extends JFrame implements Runnable {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				String nickname = textField.getText();
-				int port = 3000;
-				ChooseNickNameController chooseNameCtl = new ChooseNickNameController(
-						nickname);
-
+				
 				ConnectController connectCtr = new ConnectController(nickname,
-						port);
-				client = chooseNameCtl.getClient();
-				socket = connectCtr.getSocket();
-				try {
-					outS = new PrintWriter(socket.getOutputStream(), true);
-					inS = new BufferedReader(new InputStreamReader(socket
-							.getInputStream()));
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				outS.println(nickname);
+						3000, getLogWindow());
 				run();
-				/*
-				 * try { window.setSocket(connectCtr.getSocket()); } catch
-				 * (IOException e1) { // TODO Auto-generated catch block
-				 * e1.printStackTrace(); }
-				 */
-
-				// getFrame().dispose();
+				
 			}
+
+			
 		});
 
 		GroupLayout groupLayout = new GroupLayout(getFrame().getContentPane());
@@ -217,5 +208,9 @@ public class LoginWindow extends JFrame implements Runnable {
 				"Sorry,but your nickname is used, please try another...");
 		this.textField.setText("");
 
+	}
+	private LoginWindow getLogWindow() {
+		// TODO Auto-generated method stub
+		return this;
 	}
 }

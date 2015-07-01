@@ -24,5 +24,7 @@ public class NameListMSG extends Message{
 		}
 		return str;
 	}
+
+	
 }
 

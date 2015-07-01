@@ -40,15 +40,14 @@ import javax.swing.JLabel;
 
 import controller.BroadcastMsgController;
 import controller.ProcessMsgController;
-import model.Client;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class ClientWindow extends JFrame implements Runnable {
 	/** client who uses this window */
-	Client client;
-	public Client getClient() {
+	String client;
+	public String getClient() {
 		return client;
 	}
 

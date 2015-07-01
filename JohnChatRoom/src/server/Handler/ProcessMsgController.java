@@ -13,7 +13,7 @@ import ServerMessage.ConnectMSG;
 import ServerMessage.EndToEndMSG;
 import ServerMessage.Message;
 import ServerMessage.NameListMSG;
-import model.*;
+
 import view.ClientWindow;
 
 
@@ -41,7 +41,7 @@ public class ProcessMsgController {
 			return msg;
 		}
 		else if(identifer.equals("Connect")){
-			ConnectMSG msg=new ConnectMSG(str);
+			ConnectMSG msg=new ConnectMSG(Message.getTokens(str));
 			return msg;
 		}
 		else if(identifer.equals("List")){
@@ -60,13 +60,13 @@ public class ProcessMsgController {
 			whisper((EndToEndMSG) msg);
 		}else if(msg instanceof ConnectMSG){
 			if(verifyDuplicate(((ConnectMSG) msg).getUser())==false){
+				serverThread.setConnectionValid(false);
 				serverThread.getOutS().println("Server Message: Duplicate User");	
 			}
 			else{
 				serverThread.getServer().getclientsNameList().put( ((ConnectMSG) msg).getUser(),serverThread.getSocket());
 				this.serverThread.getServer().getclientsOutputList().put(serverThread.getSocket(), serverThread.getOutS());
 				serverThread.getOutS().println("Login OK!");
-				this.serverThread.start();		
 			broadCast(msg.flatten());
 			}
 		}else if(msg instanceof NameListMSG){
@@ -97,7 +97,7 @@ public class ProcessMsgController {
 	}
 public boolean verifyDuplicate(String name){
 		
-		if(serverThread.getServer().getclientsNameList().contains(name)){
+		if(serverThread.getServer().getclientsNameList().containsKey(name)){
 				
 			return false;
 		}

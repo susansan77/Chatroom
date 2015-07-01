@@ -1,6 +1,6 @@
 package ServerMessage;
 
-
+import java.util.ArrayList;
 
 public class EndToEndMSG extends Message{
 	String sender;
@@ -27,4 +27,5 @@ public class EndToEndMSG extends Message{
 		// TODO Auto-generated method stub
 		return receiver;
 	}
+	
 }

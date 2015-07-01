@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 import Message.*;
-import model.*;
+
 import view.ClientWindow;
 
 public class ProcessMsgController {
@@ -21,7 +21,7 @@ public class ProcessMsgController {
 
 	private Message generateMsg(String str) {
 		// TODO Auto-generated method stub
-		String identifer=Message.extract(str);
+		String identifer=Message.extractIdentifer(str);
 		if(identifer.equals("BroadCast")){
 			BroadCastMSG msg=new BroadCastMSG(str);
 			return msg;
@@ -31,7 +31,9 @@ public class ProcessMsgController {
 			return msg;
 		}
 		else if(identifer.equals("Connect")){
-			ConnectMSG msg=new ConnectMSG(str);
+			String username=Message.getTokens(str).get(1);
+			System.out.println(username);
+			ConnectMSG msg=new ConnectMSG(username);
 			return msg;
 		}
 		else if(identifer.equals("List")){
@@ -48,7 +50,7 @@ public class ProcessMsgController {
 			window.getDisplayTextArea().append(broadMsg);
 			
 		}else if(msg instanceof EndToEndMSG){
-			boolean IamSender=((EndToEndMSG) msg).getSender().equals(window.getClient().getName());
+			boolean IamSender=((EndToEndMSG) msg).getSender().equals(window.getClient());
 			((EndToEndMSG) msg).setIfIamSender(IamSender);
 			String whisperMsg=((EndToEndMSG) msg).getFriendlyMsg();
 			window.getDisplayTextArea().append(whisperMsg);

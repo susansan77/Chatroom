@@ -1,5 +1,7 @@
 package ServerMessage;
 
+import java.util.ArrayList;
+
 public class BroadCastMSG extends Message{
 	String sender;
 	public BroadCastMSG(String str){
@@ -22,4 +24,5 @@ public class BroadCastMSG extends Message{
 	public String getText(){
 		return text;
 	}
+	
 }

@@ -6,14 +6,12 @@ import java.util.Collection;
 public class ConnectMSG extends Message{
 	String status;
 	String user;
-	public ConnectMSG(String name, int status){
+	public ConnectMSG(String name){
 		Identifer="Connect";
 		user=name;
 		this.status="connect";
 	}
-	public ConnectMSG(String str) {
-		// TODO Auto-generated constructor stub
-	}
+	
 	
 	@Override
 	public String flatten() {
@@ -24,6 +22,6 @@ public class ConnectMSG extends Message{
 		return user;
 	}
 	public String getFriendlyMsg(){
-		return user+"connect to server"+"\n";
+		return user+" join in the chatroom"+"\n";
 	}
 }
