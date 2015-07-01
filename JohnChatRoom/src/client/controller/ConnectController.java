@@ -31,6 +31,7 @@ public class ConnectController {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+			 window.setClient(nickname);
 			 window.setSocket(socket);
 			 window.setOutS(outS);
 			 window.setInS(inS);

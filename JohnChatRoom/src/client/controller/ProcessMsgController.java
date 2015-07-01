@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 import Message.*;
-
 import view.ClientWindow;
 
 public class ProcessMsgController {
@@ -23,11 +22,12 @@ public class ProcessMsgController {
 		// TODO Auto-generated method stub
 		String identifer=Message.extractIdentifer(str);
 		if(identifer.equals("BroadCast")){
-			BroadCastMSG msg=new BroadCastMSG(str);
+			BroadCastMSG msg=new BroadCastMSG(Message.getTokens(str));
 			return msg;
 		}
 		else if(identifer.equals("Whisper")){
-			EndToEndMSG msg=new EndToEndMSG(str);
+			EndToEndMSG msg=new EndToEndMSG(Message.getTokens(str));
+			
 			return msg;
 		}
 		else if(identifer.equals("Connect")){
@@ -40,6 +40,10 @@ public class ProcessMsgController {
 			NameListMSG msg=new NameListMSG(str);
 			return msg;
 				}
+		else if(identifer.equals("DisconnectMSG")){
+			DisconnectMSG msg=new DisconnectMSG(str);
+			return msg;
+				}
 		else return null;
 	}
 
@@ -49,20 +53,29 @@ public class ProcessMsgController {
 			String broadMsg=((BroadCastMSG) msg).getFriendlyMsg();
 			window.getDisplayTextArea().append(broadMsg);
 			
-		}else if(msg instanceof EndToEndMSG){
+		}
+		
+		else if(msg instanceof EndToEndMSG){
 			boolean IamSender=((EndToEndMSG) msg).getSender().equals(window.getClient());
 			((EndToEndMSG) msg).setIfIamSender(IamSender);
 			String whisperMsg=((EndToEndMSG) msg).getFriendlyMsg();
 			window.getDisplayTextArea().append(whisperMsg);
-		}else if(msg instanceof ConnectMSG){
+		}
+		
+		else if(msg instanceof ConnectMSG){
 			String connectMsg=((ConnectMSG) msg).getFriendlyMsg();
 			window.getDisplayTextArea().append(connectMsg);
 			
-		}else if(msg instanceof NameListMSG){
-			ArrayList<String> list=((NameListMSG)msg).getList();
-			window.setTable(list);
-			}
+		}
 		
+		else if(msg instanceof NameListMSG){
+			
+			window.setTable(((NameListMSG) msg).getList());
+		}
+		else if(msg instanceof DisconnectMSG){
+			String disconnectMsg=((DisconnectMSG) msg).getFriendlyMsg();
+			window.getDisplayTextArea().append(disconnectMsg);
+		}
 	}
 
 }

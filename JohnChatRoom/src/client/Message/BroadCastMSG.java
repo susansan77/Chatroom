@@ -1,14 +1,21 @@
 package Message;
 
+import java.util.ArrayList;
+
 public class BroadCastMSG extends Message{
 	String sender;
-	public BroadCastMSG(String str){
-		
-	}
+
 	public BroadCastMSG(String name, String text){
 		Identifer="BroadCast";
-		text=text;
+		this.text=text;
 		sender=name;
+	}
+
+	public BroadCastMSG(ArrayList<String> tokens) {
+		// TODO Auto-generated constructor stub
+		Identifer="BroadCast";
+		sender=tokens.get(1);
+		text=tokens.get(2);
 	}
 
 	@Override

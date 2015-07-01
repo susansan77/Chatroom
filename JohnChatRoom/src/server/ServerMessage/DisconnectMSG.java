@@ -11,6 +11,13 @@ public class DisconnectMSG extends Message{
 		this.status="disconnect";
 	}
 	
+	public DisconnectMSG(ArrayList<String> tokens) {
+		// TODO Auto-generated constructor stub
+		Identifer="Disonnect";
+		user=tokens.get(1);
+		this.status="disconnect";
+	}
+
 	@Override
 	public String flatten() {
 		// TODO Auto-generated method stub

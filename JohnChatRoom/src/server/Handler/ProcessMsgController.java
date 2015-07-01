@@ -10,10 +10,10 @@ import ServerCore.Server;
 import ServerCore.ServerThread;
 import ServerMessage.BroadCastMSG;
 import ServerMessage.ConnectMSG;
+import ServerMessage.DisconnectMSG;
 import ServerMessage.EndToEndMSG;
 import ServerMessage.Message;
 import ServerMessage.NameListMSG;
-
 import view.ClientWindow;
 
 
@@ -33,19 +33,23 @@ public class ProcessMsgController {
 		// TODO Auto-generated method stub
 		String identifer=Message.extract(str);
 		if(identifer.equals("BroadCast")){
-			BroadCastMSG msg=new BroadCastMSG(str);
+			BroadCastMSG msg=new BroadCastMSG(Message.getTokens(str));
 			return msg;
 		}
 		else if(identifer.equals("Whisper")){
-			EndToEndMSG msg=new EndToEndMSG(str);
+			EndToEndMSG msg=new EndToEndMSG(Message.getTokens(str));
 			return msg;
 		}
 		else if(identifer.equals("Connect")){
 			ConnectMSG msg=new ConnectMSG(Message.getTokens(str));
 			return msg;
 		}
+		else if(identifer.equals("Disonnect")){
+			DisconnectMSG msg=new DisconnectMSG(Message.getTokens(str));
+			return msg;
+				}
 		else if(identifer.equals("List")){
-			NameListMSG msg=new NameListMSG(str);
+			NameListMSG msg=new NameListMSG(serverThread.getServer().getclientsNameList());
 			return msg;
 				}
 		else return null;
@@ -67,10 +71,12 @@ public class ProcessMsgController {
 				serverThread.getServer().getclientsNameList().put( ((ConnectMSG) msg).getUser(),serverThread.getSocket());
 				this.serverThread.getServer().getclientsOutputList().put(serverThread.getSocket(), serverThread.getOutS());
 				serverThread.getOutS().println("Login OK!");
-			broadCast(msg.flatten());
+				broadCast(msg.flatten());
+				broadCast(new NameListMSG(serverThread.getServer().getclientsNameList()).flatten());
 			}
-		}else if(msg instanceof NameListMSG){
+		}else if(msg instanceof DisconnectMSG){
 			broadCast(msg.flatten());
+			broadCast(new NameListMSG(serverThread.getServer().getclientsNameList()).flatten());
 		}
 		
 	}

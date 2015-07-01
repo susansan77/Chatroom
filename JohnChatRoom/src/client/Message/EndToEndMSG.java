@@ -1,5 +1,7 @@
 package Message;
 
+import java.util.ArrayList;
+
 public class EndToEndMSG extends Message{
 	String sender;
 	public String getSender() {
@@ -15,6 +17,13 @@ public class EndToEndMSG extends Message{
 	public EndToEndMSG(String str) {
 		// TODO Auto-generated constructor stub
 	}
+	public EndToEndMSG(ArrayList<String> tokens) {
+		// TODO Auto-generated constructor stub
+		Identifer=tokens.get(0);
+		sender=tokens.get(1);
+		receiver=tokens.get(2);
+		text=tokens.get(3);
+	}
 	@Override
 	public String flatten() {
 		// TODO Auto-generated method stub
@@ -27,6 +36,6 @@ public class EndToEndMSG extends Message{
 		receiver="you";
 	}
 	public String getFriendlyMsg(){
-		return sender+"whisper to "+receiver+": "+text+"\n";
+		return sender+" whisper to "+receiver+": "+text+"\n";
 	}
 }

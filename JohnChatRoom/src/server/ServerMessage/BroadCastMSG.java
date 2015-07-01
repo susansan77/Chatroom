@@ -4,12 +4,14 @@ import java.util.ArrayList;
 
 public class BroadCastMSG extends Message{
 	String sender;
-	public BroadCastMSG(String str){
-		
+	public BroadCastMSG(ArrayList<String> arrayList){
+		Identifer="BroadCast";
+		sender=arrayList.get(1);
+		text=arrayList.get(2);
 	}
 	public BroadCastMSG(String name, String text){
 		Identifer="BroadCast";
-		text=text;
+		this.text=text;
 		sender=name;
 	}
 

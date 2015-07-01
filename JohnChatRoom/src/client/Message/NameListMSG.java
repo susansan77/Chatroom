@@ -5,7 +5,7 @@ import java.util.Collection;
 
 public class NameListMSG extends Message{
 	
-	ArrayList<String> nameList;
+	ArrayList<String> nameList=new ArrayList<String>();
 	
 	public NameListMSG(Collection<String> list){
 		Identifer="List";
@@ -16,6 +16,12 @@ public class NameListMSG extends Message{
 	}
 	public NameListMSG(String str) {
 		// TODO Auto-generated constructor stub
+		Identifer="List";
+		ArrayList<String> list=Message.getTokens(str);
+		for(int i=1;i<list.size();i++){
+			nameList.add(list.get(i));
+		}
+		
 	}
 
 	@Override

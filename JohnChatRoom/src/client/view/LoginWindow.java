@@ -14,7 +14,6 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-
 import controller.ConnectController;
 
 import java.awt.event.ActionListener;
@@ -186,7 +185,7 @@ public class LoginWindow extends JFrame implements Runnable {
 				}
 				if (str.equals("Login OK!")) {
 					window = new ClientWindow();
-					window.client = client;
+					window.setClient(client);
 					window.setSocket(socket, outS, inS);
 					getFrame().setVisible(false);
 
@@ -212,5 +211,10 @@ public class LoginWindow extends JFrame implements Runnable {
 	private LoginWindow getLogWindow() {
 		// TODO Auto-generated method stub
 		return this;
+	}
+
+	public void setClient(String nickname) {
+		// TODO Auto-generated method stub
+		this.client=nickname;
 	}
 }

@@ -1,6 +1,7 @@
 package ServerCore;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -53,11 +54,13 @@ public class ServerThread extends Thread{
 				ProcessMsgController controller=new ProcessMsgController(this,s);
 				controller.process();
 			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
+		} catch (Exception ioe) {
+			// server down for some reason. Should we reconnect?
+			connectionValid=false;
+			server.removeConnection(socket,this);
+			
 		}
-		
+		//System.out.println("Got there");
 	}
 
 

@@ -9,6 +9,10 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.Map;
+
+import Handler.ProcessMsgController;
+import ServerMessage.DisconnectMSG;
 
 /**
  * This is the class for Server model
@@ -68,5 +72,32 @@ public class Server {
 	}
 	public void setClients(Hashtable<Socket, PrintWriter> clients) {
 		this.clients = clients;
+	}
+	public void removeConnection(Socket s, ServerThread serverThread) {
+		// TODO Auto-generated method stub
+		//this.clientsNameList.values();
+		String nameOfLostClient = null;
+		for(Map.Entry entry: clientsNameList.entrySet()){
+            if(s.equals(entry.getValue())){
+            	nameOfLostClient=(String) entry.getKey();
+            }
+        }
+		synchronized (clients) {
+			synchronized (clientsNameList) {
+				clients.remove(s);
+				this.clientsNameList.remove(nameOfLostClient);
+			}
+		}
+		DisconnectMSG disMsg=new DisconnectMSG(nameOfLostClient);
+		ProcessMsgController ctr=new ProcessMsgController(serverThread, disMsg.flatten());
+		ctr.process();
+		try {
+			System.out.println("Disconnect from: "+s);
+			s.close();
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

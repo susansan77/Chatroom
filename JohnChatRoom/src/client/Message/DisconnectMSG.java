@@ -17,4 +17,7 @@ public class DisconnectMSG extends Message{
 	public String getUser(){
 		return user;
 	}
+	public String getFriendlyMsg(){
+		return user+" leaves  the chatroom"+"\n";
+	}
 }
