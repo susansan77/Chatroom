@@ -4,7 +4,7 @@ public class DisconnectMSG extends Message{
 	String status;
 	String user;
 	public DisconnectMSG(String name){
-		Identifer="Disonnect";
+		Identifer="Disconnect";
 		user=name;
 		this.status="disconnect";
 	}

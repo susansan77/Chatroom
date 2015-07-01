@@ -14,6 +14,7 @@ import ServerMessage.DisconnectMSG;
 import ServerMessage.EndToEndMSG;
 import ServerMessage.Message;
 import ServerMessage.NameListMSG;
+import ServerMessage.UnExpectedDisconnectMSG;
 import view.ClientWindow;
 
 
@@ -44,12 +45,16 @@ public class ProcessMsgController {
 			ConnectMSG msg=new ConnectMSG(Message.getTokens(str));
 			return msg;
 		}
-		else if(identifer.equals("Disonnect")){
+		else if(identifer.equals("Disconnect")){
 			DisconnectMSG msg=new DisconnectMSG(Message.getTokens(str));
 			return msg;
 				}
 		else if(identifer.equals("List")){
 			NameListMSG msg=new NameListMSG(serverThread.getServer().getclientsNameList());
+			return msg;
+				}
+		else if(identifer.equals("UnExpectedDisconnect")){
+			UnExpectedDisconnectMSG msg=new UnExpectedDisconnectMSG(Message.getTokens(str));
 			return msg;
 				}
 		else return null;
@@ -75,7 +80,13 @@ public class ProcessMsgController {
 				broadCast(new NameListMSG(serverThread.getServer().getclientsNameList()).flatten());
 			}
 		}else if(msg instanceof DisconnectMSG){
+			this.serverThread.clientLeave();
 			broadCast(msg.flatten());
+			broadCast(new NameListMSG(serverThread.getServer().getclientsNameList()).flatten());
+		}
+		else if(msg instanceof UnExpectedDisconnectMSG){
+			//DisconnectMSG dism=new DisconnectMSG(((UnExpectedDisconnectMSG) msg).getUser());
+			broadCast(new DisconnectMSG(((UnExpectedDisconnectMSG) msg).getUser()).flatten());
 			broadCast(new NameListMSG(serverThread.getServer().getclientsNameList()).flatten());
 		}
 		

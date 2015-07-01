@@ -32,7 +32,7 @@ public class ProcessMsgController {
 		}
 		else if(identifer.equals("Connect")){
 			String username=Message.getTokens(str).get(1);
-			System.out.println(username);
+			//System.out.println(username);
 			ConnectMSG msg=new ConnectMSG(username);
 			return msg;
 		}
@@ -40,8 +40,8 @@ public class ProcessMsgController {
 			NameListMSG msg=new NameListMSG(str);
 			return msg;
 				}
-		else if(identifer.equals("DisconnectMSG")){
-			DisconnectMSG msg=new DisconnectMSG(str);
+		else if(identifer.equals("Disonnect")){
+			DisconnectMSG msg=new DisconnectMSG(Message.getTokens(str).get(1));
 			return msg;
 				}
 		else return null;
@@ -75,6 +75,10 @@ public class ProcessMsgController {
 		else if(msg instanceof DisconnectMSG){
 			String disconnectMsg=((DisconnectMSG) msg).getFriendlyMsg();
 			window.getDisplayTextArea().append(disconnectMsg);
+			if(((DisconnectMSG) msg).getUser().equals(window.getTalkToLabel().getText())){
+				window.setTalkTo("everybody");
+				window.getTalkToLabel().setText("Talk to " + window.talkTo);
+			}
 		}
 	}
 

@@ -51,9 +51,9 @@ public class Server {
 				System.out.println("Connect from: "+s);
 				ServerThread thread=new ServerThread(this,s);
 				
-			} catch (IOException e) {
+			} catch (Exception e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
 		}
 	}
@@ -76,21 +76,14 @@ public class Server {
 	public void removeConnection(Socket s, ServerThread serverThread) {
 		// TODO Auto-generated method stub
 		//this.clientsNameList.values();
-		String nameOfLostClient = null;
-		for(Map.Entry entry: clientsNameList.entrySet()){
-            if(s.equals(entry.getValue())){
-            	nameOfLostClient=(String) entry.getKey();
-            }
-        }
+		String nameOfLostClient = findUserByClient(s);
 		synchronized (clients) {
 			synchronized (clientsNameList) {
 				clients.remove(s);
 				this.clientsNameList.remove(nameOfLostClient);
 			}
 		}
-		DisconnectMSG disMsg=new DisconnectMSG(nameOfLostClient);
-		ProcessMsgController ctr=new ProcessMsgController(serverThread, disMsg.flatten());
-		ctr.process();
+
 		try {
 			System.out.println("Disconnect from: "+s);
 			s.close();
@@ -99,5 +92,15 @@ public class Server {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	public String findUserByClient(Socket s) {
+		String nameOfLostClient = null;
+		for(Map.Entry entry: clientsNameList.entrySet()){
+            if(s.equals(entry.getValue())){
+            	nameOfLostClient=(String) entry.getKey();
+            	break;
+            }
+        }
+		return nameOfLostClient;
 	}
 }

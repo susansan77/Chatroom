@@ -39,6 +39,7 @@ import javax.swing.SwingConstants;
 import javax.swing.JLabel;
 
 import controller.BroadcastMsgController;
+import controller.DisconnectController;
 import controller.ProcessMsgController;
 import controller.WhisperController;
 
@@ -61,7 +62,7 @@ public class ClientWindow extends JFrame implements Runnable {
 
 	Socket socket;
 	/** Means of communication to/from broker. */
-	String talkTo = "everyone";
+	public String talkTo = "everyone";
 	PrintWriter outS;
 	BufferedReader inS;
 	private JFrame frmWelcomeToJohn;
@@ -106,13 +107,6 @@ public class ClientWindow extends JFrame implements Runnable {
 	 */
 	private void initialize() {
 		frmWelcomeToJohn = new JFrame();
-		frmWelcomeToJohn.addWindowListener(new WindowAdapter() {
-			
-			@Override
-			public void windowClosing(WindowEvent e) {
-				leave();
-			}
-		});
 		frmWelcomeToJohn.setTitle("Welcome to John 32 Chatroom");
 		frmWelcomeToJohn.setBounds(100, 100, 650, 550);
 		frmWelcomeToJohn.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -191,7 +185,10 @@ public class ClientWindow extends JFrame implements Runnable {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				leave();
+				System.exit(1);
+//				frmWelcomeToJohn.dispose();
 			}
+		
 		});
 
 		scrollPane = new JScrollPane();
@@ -340,6 +337,14 @@ public class ClientWindow extends JFrame implements Runnable {
 		return this.talkToLabel;
 	}
 	public void leave(){
-		System.out.println("I am leaving");
+		
+		new DisconnectController(this.client,this.outS);
+		System.exit(1);
+
+	}
+
+	public void setTalkTo(String string) {
+		// TODO Auto-generated method stub
+		this.talkTo=string;
 	}
 }

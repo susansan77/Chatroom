@@ -2,18 +2,18 @@ package ServerMessage;
 
 import java.util.ArrayList;
 
-public class DisconnectMSG extends Message{
+public class UnExpectedDisconnectMSG extends Message{
 	String status;
 	String user;
-	public DisconnectMSG(String name){
-		Identifer="Disconnect";
+	public UnExpectedDisconnectMSG(String name){
+		Identifer="UnExpectedDisconnect";
 		user=name;
 		this.status="disconnect";
 	}
 	
-	public DisconnectMSG(ArrayList<String> tokens) {
+	public UnExpectedDisconnectMSG(ArrayList<String> tokens) {
 		// TODO Auto-generated constructor stub
-		Identifer="Disonnect";
+		Identifer="UnExpectedDisconnect";
 		user=tokens.get(1);
 		this.status="disconnect";
 	}
@@ -27,5 +27,4 @@ public class DisconnectMSG extends Message{
 		return user;
 	}
 
-	
 }

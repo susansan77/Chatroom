@@ -8,6 +8,8 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 import Handler.ProcessMsgController;
+import Message.DisconnectMSG;
+import ServerMessage.UnExpectedDisconnectMSG;
 
 /**
  * This is the server thread for one client,
@@ -55,12 +57,21 @@ public class ServerThread extends Thread{
 				controller.process();
 			}
 		} catch (Exception ioe) {
-			// server down for some reason. Should we reconnect?
+			String user=this.server.findUserByClient(this.socket);
 			connectionValid=false;
 			server.removeConnection(socket,this);
+			UnExpectedDisconnectMSG disconnectMsg=new UnExpectedDisconnectMSG(user);
+			
+			ProcessMsgController controller=new ProcessMsgController(this,disconnectMsg.flatten());
+			controller.process();
 			
 		}
-		//System.out.println("Got there");
+		
+	}
+
+	public void clientLeave() {
+		connectionValid=false;
+		server.removeConnection(socket,this);
 	}
 
 
