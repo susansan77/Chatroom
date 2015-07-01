@@ -13,7 +13,7 @@ public class DisconnectMSG extends Message{
 	
 	public DisconnectMSG(ArrayList<String> tokens) {
 		// TODO Auto-generated constructor stub
-		Identifer="Disonnect";
+		Identifer="Disconnect";
 		user=tokens.get(1);
 		this.status="disconnect";
 	}

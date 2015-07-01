@@ -58,8 +58,7 @@ public class ServerThread extends Thread{
 			}
 		} catch (Exception ioe) {
 			String user=this.server.findUserByClient(this.socket);
-			connectionValid=false;
-			server.removeConnection(socket,this);
+			
 			UnExpectedDisconnectMSG disconnectMsg=new UnExpectedDisconnectMSG(user);
 			
 			ProcessMsgController controller=new ProcessMsgController(this,disconnectMsg.flatten());

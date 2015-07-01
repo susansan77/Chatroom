@@ -85,7 +85,8 @@ public class ProcessMsgController {
 			broadCast(new NameListMSG(serverThread.getServer().getclientsNameList()).flatten());
 		}
 		else if(msg instanceof UnExpectedDisconnectMSG){
-			//DisconnectMSG dism=new DisconnectMSG(((UnExpectedDisconnectMSG) msg).getUser());
+			this.serverThread.clientLeave();
+		//	broadCast("hghghghghghghghghhghghgh");
 			broadCast(new DisconnectMSG(((UnExpectedDisconnectMSG) msg).getUser()).flatten());
 			broadCast(new NameListMSG(serverThread.getServer().getclientsNameList()).flatten());
 		}
