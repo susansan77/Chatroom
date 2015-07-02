@@ -41,6 +41,7 @@ public class LoginWindow extends JFrame implements Runnable {
 		this.outS = outS;
 	}
 	BufferedReader inS;
+	private JTextField portText;
 
 	public void setInS(BufferedReader inS) {
 		this.inS = inS;
@@ -98,74 +99,76 @@ public class LoginWindow extends JFrame implements Runnable {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				if(textField.getText().equals("")||portText.getText().equals("")){
+					JOptionPane.showMessageDialog(getFrame(),
+							"Sorry,but your have to input your nickname and port number");
+					return;
+				}
 				String nickname = textField.getText();
+				int port=Integer.parseInt(portText.getText());
 				
-				ConnectController connectCtr = new ConnectController(nickname,
-						3000, getLogWindow());
+				 try {
+					 
+					ConnectController connectCtr = new ConnectController(nickname,
+					port, getLogWindow());
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					 JOptionPane.showMessageDialog(window,
+								"Sorry, but your login request is refused. Is the port number correct?");
+					 return;
+				}
 				run();
 				
 			}
 
 			
 		});
+		
+		portText = new JTextField();
+		portText.setColumns(10);
+		
+		JLabel lblAtPort = new JLabel("port:");
 
 		GroupLayout groupLayout = new GroupLayout(getFrame().getContentPane());
-		groupLayout
-				.setHorizontalGroup(groupLayout
-						.createParallelGroup(Alignment.LEADING)
-						.addGroup(
-								groupLayout
-										.createSequentialGroup()
-										.addGroup(
-												groupLayout
-														.createParallelGroup(
-																Alignment.LEADING)
-														.addGroup(
-																groupLayout
-																		.createSequentialGroup()
-																		.addGap(16)
-																		.addGroup(
-																				groupLayout
-																						.createParallelGroup(
-																								Alignment.LEADING)
-																						.addComponent(
-																								lblSelectYourNickname,
-																								GroupLayout.PREFERRED_SIZE,
-																								261,
-																								GroupLayout.PREFERRED_SIZE)
-																						.addComponent(
-																								lblWelcomeTo)))
-														.addGroup(
-																groupLayout
-																		.createSequentialGroup()
-																		.addGap(54)
-																		.addComponent(
-																				textField,
-																				GroupLayout.PREFERRED_SIZE,
-																				236,
-																				GroupLayout.PREFERRED_SIZE))
-														.addGroup(
-																groupLayout
-																		.createSequentialGroup()
-																		.addGap(99)
-																		.addComponent(
-																				btnJoinChatting)))
-										.addContainerGap(60, Short.MAX_VALUE)));
-		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(
-				Alignment.LEADING).addGroup(
-				groupLayout
-						.createSequentialGroup()
-						.addGap(21)
-						.addComponent(lblWelcomeTo)
-						.addGap(18)
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(16)
+							.addComponent(lblWelcomeTo))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(99)
+							.addComponent(btnJoinChatting)))
+					.addContainerGap(111, Short.MAX_VALUE))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(54)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblSelectYourNickname, GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE))
+					.addGap(18)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(portText, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblAtPort))
+					.addGap(44))
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(21)
+					.addComponent(lblWelcomeTo)
+					.addGap(24)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblSelectYourNickname)
-						.addPreferredGap(ComponentPlacement.UNRELATED)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE,
-								GroupLayout.DEFAULT_SIZE,
-								GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.UNRELATED)
-						.addComponent(btnJoinChatting)
-						.addContainerGap(26, Short.MAX_VALUE)));
+						.addComponent(lblAtPort))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(portText, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(btnJoinChatting)
+					.addContainerGap(26, Short.MAX_VALUE))
+		);
 		getFrame().getContentPane().setLayout(groupLayout);
 	}
 
@@ -183,7 +186,7 @@ public class LoginWindow extends JFrame implements Runnable {
 
 					break;
 				}
-				if (str.equals("Login OK!")) {
+				else if (str.equals("Login OK!")) {
 					window = new ClientWindow();
 					window.setClient(client);
 					window.setSocket(socket, outS, inS);
@@ -191,7 +194,11 @@ public class LoginWindow extends JFrame implements Runnable {
 
 					break;
 				}
-
+				else{
+					JOptionPane.showMessageDialog(getFrame(),
+							"Sorry, but the port is not serving");
+					break;
+				}
 			}
 
 		} catch (Exception e) {
